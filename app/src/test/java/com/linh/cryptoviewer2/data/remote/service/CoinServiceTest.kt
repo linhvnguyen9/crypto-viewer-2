@@ -78,7 +78,7 @@ class CoinServiceTest  {
 
         coinService.getCoin(coinId)
 
-        assertEquals("${BASE_URL}coin/$coinId", mockWebServer.takeRequest().path)
+        assertEquals("${BASE_URL}coins/$coinId", mockWebServer.takeRequest().path)
     }
 
     companion object {

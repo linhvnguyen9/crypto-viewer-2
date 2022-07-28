@@ -61,6 +61,10 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.1.1"
     debugImplementation "androidx.compose.ui:ui-tooling:1.1.1"
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.1.1"
+    implementation "androidx.navigation:navigation-compose:2.5.1"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    implementation "io.coil-kt:coil-compose:2.1.0"
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
 
@@ -77,6 +81,17 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
 
     // TESTING
+
     // MockWebServer
     testImplementation "com.squareup.okhttp3:mockwebserver:4.10.0"
+
+    // MockK
+    testImplementation "io.mockk:mockk:1.12.4"
+    testImplementation "io.mockk:mockk-agent-jvm:1.12.4"
+    androidTestImplementation "io.mockk:mockk-android:1.12.4"
+    androidTestImplementation "io.mockk:mockk-agent-jvm:1.12.4"
+
+    // Coroutines test
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+    testImplementation 'app.cash.turbine:turbine:0.8.0'
 }
