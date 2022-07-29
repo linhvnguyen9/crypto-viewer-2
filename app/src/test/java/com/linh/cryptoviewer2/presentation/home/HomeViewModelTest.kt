@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.linh.cryptoviewer2.domain.model.CoinFactory
 import com.linh.cryptoviewer2.domain.usecase.GetCoinUseCase
 import com.linh.cryptoviewer2.presentation.home.model.CoinToCoinUiMapper
-import com.linh.cryptoviewer2.presentation.home.model.CoinUi
 import com.linh.cryptoviewer2.presentation.home.model.CoinUiFactory
 import com.linh.cryptoviewer2.presentation.home.model.HomeScreenUiState
 import com.linh.cryptoviewer2.utils.TestHelper

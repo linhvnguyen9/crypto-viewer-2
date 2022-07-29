@@ -8,6 +8,6 @@ object CoinUiFactory {
         symbol = TestHelper.randomString(),
         imageUrl = TestHelper.randomString(),
         price = TestHelper.randomString(),
-        priceChangePercentage24h = TestHelper.randomString()
+        priceChangePercentage24h = TestHelper.randomDouble()
     )
 }

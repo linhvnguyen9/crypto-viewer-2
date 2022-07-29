@@ -45,6 +45,11 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources true
+        }
+    }
 }
 
 dependencies {
@@ -94,4 +99,7 @@ dependencies {
     // Coroutines test
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
     testImplementation 'app.cash.turbine:turbine:0.8.0'
+
+    // AndroidX test
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 }
