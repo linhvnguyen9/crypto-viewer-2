@@ -9,7 +9,8 @@ data class Coin(
     val sentimentsVoteDownPercentage: Float,
     val marketCapRank: Int,
     val coinGeckoRank: Int,
-    val currentPrice: CurrentPrice
+    val currentPrice: CurrentPrice,
+    val priceChangePercentage24h: Double
 ) {
     data class Image(
         val thumbUrl: String,

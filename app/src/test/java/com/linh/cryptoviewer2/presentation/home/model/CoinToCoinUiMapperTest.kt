@@ -21,7 +21,10 @@ class CoinToCoinUiMapperTest {
         val actual = mapper.map(coin)
 
         assertEquals(coin.name, actual.name)
-        assertEquals(coin.symbol, actual.symbol)
+        assertEquals(coin.symbol.uppercase(), actual.symbol)
         assertEquals(coin.image.smallUrl, actual.imageUrl)
+        assertEquals(String.format("$%.2f", coin.currentPrice.usd), actual.price)
+        // TODO: Assert
+        assertEquals(String.format("%.2f", coin.priceChangePercentage24h) + "%", actual.priceChangePercentage24h)
     }
 }

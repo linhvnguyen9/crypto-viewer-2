@@ -26,7 +26,8 @@ object GetCoinResponseFactory {
                 usd = randomDouble(),
                 vnd = randomDouble(),
                 btc = randomDouble()
-            )
+            ),
+            priceChangePercentage24h = randomDouble()
         )
     )
 }

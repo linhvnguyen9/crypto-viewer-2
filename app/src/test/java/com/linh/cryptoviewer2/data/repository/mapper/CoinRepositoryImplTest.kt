@@ -5,6 +5,7 @@ import com.linh.cryptoviewer2.data.remote.model.GetCoinResponseFactory
 import com.linh.cryptoviewer2.data.remote.service.CoinService
 import com.linh.cryptoviewer2.data.repository.CoinRepositoryImpl
 import com.linh.cryptoviewer2.domain.model.Coin
+import com.linh.cryptoviewer2.domain.model.CoinFactory
 import com.linh.cryptoviewer2.domain.repository.CoinRepository
 import com.linh.cryptoviewer2.utils.TestHelper
 import io.mockk.*
@@ -63,17 +64,7 @@ class CoinRepositoryImplTest {
         val id = TestHelper.randomString()
         val response = GetCoinResponseFactory.makeGetCoinResponse()
         coEvery { coinService.getCoin(id) } returns response
-        val expectedCoin = Coin(
-            id,
-            symbol = response.symbol,
-            name = response.name,
-            image = Coin.Image(thumbUrl = response.image.thumbUrl, smallUrl = response.image.smallUrl, largeUrl = response.image.largeUrl),
-            sentimentsVoteDownPercentage = response.sentimentsVoteDownPercentage,
-            sentimentsVoteUpPercentage = response.sentimentsVoteUpPercentage,
-            marketCapRank = response.marketCapRank,
-            coinGeckoRank = response.coinGeckoRank,
-            currentPrice = Coin.CurrentPrice(usd = response.marketData.currentPrice.usd, vnd = response.marketData.currentPrice.vnd, btc = response.marketData.currentPrice.btc)
-        )
+        val expectedCoin = CoinFactory.makeCoin()
         every { getCoinResponseToCoinMapper.map(response) } returns expectedCoin
 
         val result = coinRepository.getCoin(id)
