@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2.data.remote.model
+package com.linh.cryptoviewer2.data.remote.model.response
 
 import com.google.gson.annotations.SerializedName
 

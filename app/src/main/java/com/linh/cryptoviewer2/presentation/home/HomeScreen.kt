@@ -3,6 +3,7 @@ package com.linh.cryptoviewer2.presentation.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,13 +39,14 @@ fun HomeScreenLoadingState() {
 }
 
 @Composable
-fun HomeScreenSuccessState(coinUi: CoinUi) {
+fun HomeScreenSuccessState(coinUis: List<CoinUi>) {
     LazyColumn(
+        modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        repeat(20) {
-            item { CoinItem(coinUi) }
+        itemsIndexed(coinUis) { _, item ->
+            CoinItem(coinUi = item)
         }
     }
 }
@@ -76,7 +78,7 @@ fun CoinItem(coinUi: CoinUi) {
                         Modifier
                             .wrapContentHeight()
                             .align(Alignment.CenterEnd)) {
-                        Text(price, style = MaterialTheme.typography.h6)
+                        Text(displayPrice, style = MaterialTheme.typography.h6)
                         Spacer(Modifier.height(4.dp))
                         Row(Modifier.align(Alignment.End), verticalAlignment = Alignment.CenterVertically) {
                             Icon(
@@ -101,7 +103,7 @@ fun CoinItem(coinUi: CoinUi) {
 @Preview
 @Composable
 fun CoinItemPreview() {
-    CoinItem(coinUi = CoinUi("Test", "Symbol", "Url", "$1000.2", 1.23))
+    CoinItem(coinUi = CoinUi("Test", "Symbol", "Url", 1000.2, 1.23))
 }
 
 @Preview

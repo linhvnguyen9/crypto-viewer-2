@@ -12,7 +12,7 @@ class CoinUiTest {
             TestHelper.randomString(),
             TestHelper.randomString(),
             TestHelper.randomString(),
-            TestHelper.randomString(),
+            TestHelper.randomDouble(),
             23.0
         )
 
@@ -82,4 +82,13 @@ class CoinUiTest {
 //
 //        assertEquals(R.color.price_change_negative, actual)
 //    }
+
+    @Test
+    fun `Given coin ui, when get display price, return correct string`() {
+        val coinUi = CoinUiFactory.makeCoinUi()
+
+        val actual = coinUi.displayPrice
+
+        assertEquals(actual, String.format("$%.2f", coinUi.price))
+    }
 }
