@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CryptoViewer2</string>
+    <string name="snackbar_no_internet">No internet connection</string>
 </resources>
