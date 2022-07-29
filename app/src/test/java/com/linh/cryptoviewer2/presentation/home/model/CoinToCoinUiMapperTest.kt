@@ -23,7 +23,7 @@ class CoinToCoinUiMapperTest {
         assertEquals(coin.name, actual.name)
         assertEquals(coin.symbol.uppercase(), actual.symbol)
         assertEquals(coin.image.smallUrl, actual.imageUrl)
-        assertEquals(String.format("$%.2f", coin.currentPrice.usd), actual.price)
+        assertEquals(coin.currentPrice.usd, actual.price, 0.001)
         assertEquals(coin.priceChangePercentage24h, actual.priceChangePercentage24h, 0.001)
     }
 }

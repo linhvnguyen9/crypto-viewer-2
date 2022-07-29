@@ -2,7 +2,11 @@ package com.linh.cryptoviewer2.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.linh.cryptoviewer2.domain.model.FiatCurrency
+import com.linh.cryptoviewer2.domain.model.PriceChangePercentage
+import com.linh.cryptoviewer2.domain.usecase.GetCoinMarketDataUseCase
 import com.linh.cryptoviewer2.domain.usecase.GetCoinUseCase
+import com.linh.cryptoviewer2.presentation.home.model.CoinMarketDataToCoinUiMapper
 import com.linh.cryptoviewer2.presentation.home.model.CoinToCoinUiMapper
 import com.linh.cryptoviewer2.presentation.home.model.HomeScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getCoinUseCase: GetCoinUseCase,
-    private val coinUiMapper: CoinToCoinUiMapper
+    private val getCoinMarketDataUseCase: GetCoinMarketDataUseCase,
+    private val coinMarketDataToCoinUiMapper: CoinMarketDataToCoinUiMapper
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeScreenUiState>(HomeScreenUiState.Initial)
@@ -27,8 +31,8 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val response = getCoinUseCase(coinId)
-                val uiModel = coinUiMapper.map(response)
+                val response = getCoinMarketDataUseCase(FiatCurrency.USD, listOf(coinId), listOf(PriceChangePercentage.CHANGE_24_HOURS))
+                val uiModel = coinMarketDataToCoinUiMapper.map(response)
                 _uiState.update { HomeScreenUiState.Success(uiModel) }
             } catch (e: Exception) {
                 _uiState.update { HomeScreenUiState.Error("Test error") }

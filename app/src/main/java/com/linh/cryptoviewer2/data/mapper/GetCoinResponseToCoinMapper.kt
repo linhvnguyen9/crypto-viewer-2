@@ -1,7 +1,8 @@
 package com.linh.cryptoviewer2.data.mapper
 
-import com.linh.cryptoviewer2.data.remote.model.GetCoinResponse
+import com.linh.cryptoviewer2.data.remote.model.response.GetCoinResponse
 import com.linh.cryptoviewer2.domain.model.Coin
+import com.linh.cryptoviewer2.util.Mapper
 import javax.inject.Inject
 
 class GetCoinResponseToCoinMapper @Inject constructor(): Mapper<GetCoinResponse, Coin> {

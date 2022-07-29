@@ -1,6 +1,6 @@
 package com.linh.cryptoviewer2.presentation.home.model
 
-import com.linh.cryptoviewer2.data.mapper.Mapper
+import com.linh.cryptoviewer2.util.Mapper
 import com.linh.cryptoviewer2.domain.model.Coin
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ class CoinToCoinUiMapper @Inject constructor(): Mapper<Coin, CoinUi> {
                 name = name,
                 symbol = symbol.uppercase(),
                 imageUrl = image.smallUrl,
-                price = currentPrice.usd.toFormattedPrice(),
+                price = currentPrice.usd,
                 priceChangePercentage24h = priceChangePercentage24h
             )
         }
