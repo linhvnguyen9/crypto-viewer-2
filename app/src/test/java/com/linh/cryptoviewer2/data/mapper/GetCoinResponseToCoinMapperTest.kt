@@ -38,6 +38,11 @@ class GetCoinResponseToCoinMapperTest {
                 ),
                 result.currentPrice
             )
+            assertEquals(
+                marketData.priceChangePercentage24h,
+                result.priceChangePercentage24h,
+                0.001
+            )
         }
     }
 }

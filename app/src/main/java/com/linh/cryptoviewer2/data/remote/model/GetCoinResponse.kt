@@ -16,7 +16,7 @@ data class GetCoinResponse(
     @SerializedName("coingecko_rank")
     val coinGeckoRank: Int,
     @SerializedName("market_data")
-    val marketData: MarketData
+    val marketData: MarketData,
 ) {
     data class Image(
         @SerializedName("thumb") val thumbUrl: String,
@@ -25,7 +25,10 @@ data class GetCoinResponse(
     )
 
     data class MarketData(
-        @SerializedName("current_price") val currentPrice: CurrentPrice
+        @SerializedName("current_price")
+        val currentPrice: CurrentPrice,
+        @SerializedName("price_change_percentage_24h")
+        val priceChangePercentage24h: Double
     ) {
         data class CurrentPrice(
             val usd: Double,

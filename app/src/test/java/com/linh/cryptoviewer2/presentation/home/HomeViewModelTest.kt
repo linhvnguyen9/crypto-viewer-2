@@ -1,17 +1,16 @@
 package com.linh.cryptoviewer2.presentation.home
 
 import app.cash.turbine.test
-import com.linh.cryptoviewer2.domain.model.Coin
 import com.linh.cryptoviewer2.domain.model.CoinFactory
 import com.linh.cryptoviewer2.domain.usecase.GetCoinUseCase
 import com.linh.cryptoviewer2.presentation.home.model.CoinToCoinUiMapper
 import com.linh.cryptoviewer2.presentation.home.model.CoinUi
+import com.linh.cryptoviewer2.presentation.home.model.CoinUiFactory
 import com.linh.cryptoviewer2.presentation.home.model.HomeScreenUiState
 import com.linh.cryptoviewer2.utils.TestHelper
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -73,7 +72,7 @@ class HomeViewModelTest {
     @Test
     fun `Given get coin usecase success, When get coin success, Then show correct data`() {
         val coin = CoinFactory.makeCoin()
-        val mappedCoinUi = CoinUi(coin.name, coin.symbol, coin.image.smallUrl)
+        val mappedCoinUi = CoinUiFactory.makeCoinUi()
 
         coEvery { getCoinUseCase.invoke(coin.id) } returns coin
         every { mapper.map(coin) } returns mappedCoinUi
@@ -81,7 +80,7 @@ class HomeViewModelTest {
         viewModel.getCoin(coin.id)
 
         assertEquals(
-            HomeScreenUiState.Success(CoinUi(coin.name, coin.symbol, coin.image.smallUrl)),
+            HomeScreenUiState.Success(mappedCoinUi),
             viewModel.uiState.value
         )
     }

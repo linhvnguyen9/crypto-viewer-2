@@ -25,7 +25,8 @@ class GetCoinResponseToCoinMapper @Inject constructor(): Mapper<GetCoinResponse,
                     usd = marketData.currentPrice.usd,
                     vnd = marketData.currentPrice.vnd,
                     btc = marketData.currentPrice.btc
-                )
+                ),
+                priceChangePercentage24h = marketData.priceChangePercentage24h
             )
         }
     }

@@ -63,7 +63,8 @@ class CoinServiceTest  {
                         252.54,
                         5904558.0,
                         0.01184735
-                    )
+                    ),
+                    priceChangePercentage24h = 3.32841
                 ),
                 marketData
             )

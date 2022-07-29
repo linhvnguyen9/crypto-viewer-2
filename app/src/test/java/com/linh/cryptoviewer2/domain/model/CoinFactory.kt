@@ -13,7 +13,8 @@ object CoinFactory {
             sentimentsVoteDownPercentage = TestHelper.randomFloat(),
             marketCapRank = TestHelper.randomInt(),
             coinGeckoRank = TestHelper.randomInt(),
-            currentPrice = makeCurrentPrice()
+            currentPrice = makeCurrentPrice(),
+            priceChangePercentage24h = TestHelper.randomDouble()
         )
     }
 

@@ -9,9 +9,15 @@ class CoinToCoinUiMapper @Inject constructor(): Mapper<Coin, CoinUi> {
         with(input) {
             return CoinUi(
                 name = name,
-                symbol = symbol,
-                imageUrl = image.smallUrl
+                symbol = symbol.uppercase(),
+                imageUrl = image.smallUrl,
+                price = currentPrice.usd.toFormattedPrice(),
+                priceChangePercentage24h = priceChangePercentage24h.toFormattedPercentage()
             )
         }
     }
+
+    private fun Double.toFormattedPrice() = String.format("$%.2f", this)
+
+    fun Double.toFormattedPercentage() = String.format("%.2f", this) + "%"
 }
