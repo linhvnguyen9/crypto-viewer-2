@@ -4,13 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.linh.cryptoviewer2.domain.usecase.GetCoinUseCase
 import com.linh.cryptoviewer2.presentation.home.model.CoinToCoinUiMapper
-import com.linh.cryptoviewer2.presentation.home.model.CoinUi
 import com.linh.cryptoviewer2.presentation.home.model.HomeScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject

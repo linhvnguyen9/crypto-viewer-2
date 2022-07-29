@@ -12,12 +12,10 @@ class CoinToCoinUiMapper @Inject constructor(): Mapper<Coin, CoinUi> {
                 symbol = symbol.uppercase(),
                 imageUrl = image.smallUrl,
                 price = currentPrice.usd.toFormattedPrice(),
-                priceChangePercentage24h = priceChangePercentage24h.toFormattedPercentage()
+                priceChangePercentage24h = priceChangePercentage24h
             )
         }
     }
 
     private fun Double.toFormattedPrice() = String.format("$%.2f", this)
-
-    fun Double.toFormattedPercentage() = String.format("%.2f", this) + "%"
 }
