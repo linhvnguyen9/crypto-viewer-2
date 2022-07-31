@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CryptoViewer2</string>
     <string name="snackbar_no_internet">No internet connection</string>
+    <string name="home_error_occurred">An error occurred, please try again</string>
 </resources>

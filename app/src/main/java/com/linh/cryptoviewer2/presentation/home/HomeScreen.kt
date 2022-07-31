@@ -22,15 +22,15 @@ fun HomeScreen(uiState: HomeScreenUiState) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         when (uiState) {
             HomeScreenUiState.Initial, HomeScreenUiState.Loading -> HomeScreenLoadingState()
-            is HomeScreenUiState.Error -> HomeScreenErrorState()
+            is HomeScreenUiState.Error -> HomeScreenErrorState(uiState.errorMessage)
             is HomeScreenUiState.Success -> HomeScreenSuccessState(uiState.data)
         }
     }
 }
 
 @Composable
-fun HomeScreenErrorState() {
-    Text(text = "An error occurred")
+fun HomeScreenErrorState(errorMessage: String) {
+    Text(text = errorMessage)
 }
 
 @Composable
