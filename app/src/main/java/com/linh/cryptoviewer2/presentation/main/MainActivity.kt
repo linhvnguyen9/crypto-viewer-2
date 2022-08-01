@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2
+package com.linh.cryptoviewer2.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,19 +12,18 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.linh.cryptoviewer2.R
 import com.linh.cryptoviewer2.domain.model.ConnectivityState
 import com.linh.cryptoviewer2.presentation.home.HomeScreen
 import com.linh.cryptoviewer2.presentation.home.HomeViewModel
-import com.linh.cryptoviewer2.ui.theme.CryptoViewer2Theme
+import com.linh.cryptoviewer2.presentation.theme.CryptoViewer2Theme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

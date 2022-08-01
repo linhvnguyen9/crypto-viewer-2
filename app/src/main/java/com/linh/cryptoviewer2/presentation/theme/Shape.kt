@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2.ui.theme
+package com.linh.cryptoviewer2.presentation.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

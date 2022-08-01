@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2
+package com.linh.cryptoviewer2.presentation.main
 
 import android.view.View
 import androidx.lifecycle.ViewModel

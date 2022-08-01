@@ -13,7 +13,8 @@ import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import javax.inject.Inject
 
-class ConnectivityServiceImpl @Inject constructor(private val context: Context): ConnectivityService {
+class ConnectivityServiceImpl @Inject constructor(private val context: Context) :
+    ConnectivityService {
     private val connectivityManager by lazy { context.getSystemService(ConnectivityManager::class.java) as ConnectivityManager }
 
     override val connectivityState: StateFlow<ConnectivityState>
@@ -42,9 +43,6 @@ class ConnectivityServiceImpl @Inject constructor(private val context: Context):
         connectivityManager.requestNetwork(networkRequest, networkCallback)
         val currentNetwork = connectivityManager.activeNetwork
 
-        Timber.d("Register callback current net $currentNetwork")
-
         if (currentNetwork == null) _connectivityState.update { ConnectivityState.DISCONNECTED }
-
     }
 }

@@ -23,7 +23,7 @@ object GetCoinsMarketDataResponseFactory {
         lastUpdated = TestHelper.randomString(),
         low24h = TestHelper.randomDouble(),
         marketCap = TestHelper.randomLong(),
-        marketCapChange24h = TestHelper.randomLong(),
+        marketCapChange24h = TestHelper.randomDouble(),
         marketCapChangePercentage24h = TestHelper.randomDouble(),
         marketCapRank = TestHelper.randomInt(),
         maxSupply = TestHelper.randomDouble(),
