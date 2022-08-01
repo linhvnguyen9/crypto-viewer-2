@@ -20,8 +20,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.linh.cryptoviewer2.R
 import com.linh.cryptoviewer2.domain.model.ConnectivityState
-import com.linh.cryptoviewer2.presentation.home.HomeScreen
-import com.linh.cryptoviewer2.presentation.home.HomeViewModel
+import com.linh.cryptoviewer2.presentation.watchlist.WatchlistScreen
+import com.linh.cryptoviewer2.presentation.watchlist.WatchlistViewModel
 import com.linh.cryptoviewer2.presentation.theme.CryptoViewer2Theme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NavHost(navController = navController, startDestination = "/") {
                         composable("/") {
-                            val viewModel: HomeViewModel = hiltViewModel()
+                            val viewModel: WatchlistViewModel = hiltViewModel()
                             val state = viewModel.uiState.collectAsState()
 
                             LaunchedEffect(key1 = true) {
@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize(),
                                 color = MaterialTheme.colors.background
                             ) {
-                                HomeScreen(state.value)
+                                WatchlistScreen(state.value)
                             }
                         }
                     }

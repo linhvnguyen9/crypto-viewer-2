@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2.presentation.home
+package com.linh.cryptoviewer2.presentation.watchlist
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,23 +14,23 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.linh.cryptoviewer2.presentation.home.model.CoinUi
-import com.linh.cryptoviewer2.presentation.home.model.HomeScreenUiState
+import com.linh.cryptoviewer2.presentation.watchlist.model.CoinUi
+import com.linh.cryptoviewer2.presentation.watchlist.model.WatchlistScreenUiState
 
 @Composable
-fun HomeScreen(uiState: HomeScreenUiState) {
+fun WatchlistScreen(uiState: WatchlistScreenUiState) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         when (uiState) {
-            is HomeScreenUiState.Error -> HomeScreenErrorState(uiState.errorMessage)
+            is WatchlistScreenUiState.Error -> WatchlistScreenErrorState(uiState.errorMessage)
             else -> {
                 SwipeRefresh(
                     state = rememberSwipeRefreshState(isRefreshing = uiState.isLoading),
-                    onRefresh = { if (uiState is HomeScreenUiState.Success) uiState.data.onRefresh() }
+                    onRefresh = { if (uiState is WatchlistScreenUiState.Success) uiState.data.onRefresh() }
                 ) {
                     if (uiState.isSuccess || uiState.isLoading) {
                         val data = when (uiState) {
-                            is HomeScreenUiState.Success -> uiState.data.data
-                            is HomeScreenUiState.Loading -> uiState.oldData ?: emptyList()
+                            is WatchlistScreenUiState.Success -> uiState.data.data
+                            is WatchlistScreenUiState.Loading -> uiState.oldData ?: emptyList()
                             else -> emptyList()
                         }
 
@@ -51,13 +51,8 @@ fun HomeScreen(uiState: HomeScreenUiState) {
 }
 
 @Composable
-fun HomeScreenErrorState(errorMessage: String) {
+fun WatchlistScreenErrorState(errorMessage: String) {
     Text(text = errorMessage)
-}
-
-@Composable
-fun HomeScreenLoadingState() {
-    CircularProgressIndicator()
 }
 
 @Composable
@@ -118,5 +113,5 @@ fun CoinItemPreview() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(uiState = HomeScreenUiState.Error(""))
+    WatchlistScreen(uiState = WatchlistScreenUiState.Error(""))
 }
