@@ -5,6 +5,7 @@ import com.linh.cryptoviewer2.device.ConnectivityService
 import com.linh.cryptoviewer2.device.ConnectivityServiceImpl
 import com.linh.cryptoviewer2.presentation.util.ResourceProvider
 import com.linh.cryptoviewer2.presentation.util.ResourceProviderImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
