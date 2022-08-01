@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2.ui.theme
+package com.linh.cryptoviewer2.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

@@ -40,7 +40,7 @@ class GetCoinsMarketDataResponse() : ArrayList<GetCoinsMarketDataResponse.GetCoi
         @SerializedName("market_cap")
         val marketCap: Long?,
         @SerializedName("market_cap_change_24h")
-        val marketCapChange24h: Long?,
+        val marketCapChange24h: Double?,
         @SerializedName("market_cap_change_percentage_24h")
         val marketCapChangePercentage24h: Double?,
         @SerializedName("market_cap_rank")
