@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2.presentation.main
+package com.linh.cryptoviewer2.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,24 +9,30 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.linh.cryptoviewer2.R
 import com.linh.cryptoviewer2.domain.model.ConnectivityState
+import com.linh.cryptoviewer2.presentation.navigation.NavigationDestination
+import com.linh.cryptoviewer2.presentation.navigation.Navigator
 import com.linh.cryptoviewer2.presentation.watchlist.WatchlistScreen
 import com.linh.cryptoviewer2.presentation.watchlist.WatchlistViewModel
 import com.linh.cryptoviewer2.presentation.theme.CryptoViewer2Theme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var navigator: Navigator
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -42,29 +48,58 @@ class MainActivity : ComponentActivity() {
 
                 LaunchedEffect(connectivityState.value) {
                     if (connectivityState.value == ConnectivityState.DISCONNECTED) {
-                        scaffoldState.snackbarHostState.showSnackbar(getString(R.string.snackbar_no_internet), duration = SnackbarDuration.Indefinite)
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            getString(R.string.snackbar_no_internet),
+                            duration = SnackbarDuration.Indefinite
+                        )
                     } else {
                         scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
                     }
                 }
+
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val selectedDestination =
+                    navBackStackEntry?.destination?.route ?: navigator.startDestination.route
 
                 Scaffold(
                     scaffoldState = scaffoldState,
                     bottomBar = {
                         BottomNavigation {
                             BottomNavigationItem(
-                                selected = true,
-                                onClick = { /*TODO*/ },
-                                icon = { Icon(Icons.Filled.Home, contentDescription = null) })
+                                selected = selectedDestination == NavigationDestination.Home.route,
+                                onClick = { viewModel.navigateToHome() },
+                                icon = { Icon(Icons.Filled.Home, contentDescription = null) },
+                                label = { Text(getString(R.string.all_home)) }
+                            )
                             BottomNavigationItem(
-                                selected = true,
-                                onClick = { /*TODO*/ },
-                                icon = { Icon(Icons.Filled.Star, contentDescription = null) })
+                                selected = selectedDestination == NavigationDestination.Watchlist.route,
+                                onClick = { viewModel.navigateToWatchlist() },
+                                icon = { Icon(Icons.Filled.Star, contentDescription = null) },
+                                label = { Text(getString(R.string.all_watchlist)) }
+                            )
                         }
                     }
                 ) {
-                    NavHost(navController = navController, startDestination = "/") {
-                        composable("/") {
+                    LaunchedEffect(Unit) {
+                        viewModel.navigationCommands.collect { command ->
+                            command.let {
+                                if (it.destination.route.isNotEmpty()) {
+                                    navController.navigate(
+                                        it.destination.route
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    NavHost(
+                        navController = navController,
+                        startDestination = navigator.startDestination.route
+                    ) {
+                        composable(NavigationDestination.Home.route) {
+                            Text(text = "Home Screen")
+                        }
+                        composable(NavigationDestination.Watchlist.route) {
                             val viewModel: WatchlistViewModel = hiltViewModel()
                             val state = viewModel.uiState.collectAsState()
 
