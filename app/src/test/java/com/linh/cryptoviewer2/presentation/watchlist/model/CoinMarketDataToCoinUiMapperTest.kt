@@ -1,6 +1,5 @@
-package com.linh.cryptoviewer2.presentation.home.model
+package com.linh.cryptoviewer2.presentation.watchlist.model
 
-import com.linh.cryptoviewer2.domain.model.CoinFactory
 import com.linh.cryptoviewer2.domain.model.CoinMarketDataFactory
 import org.junit.Assert.*
 import org.junit.Before

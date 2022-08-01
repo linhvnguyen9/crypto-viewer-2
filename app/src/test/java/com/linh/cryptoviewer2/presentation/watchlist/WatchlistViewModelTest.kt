@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2.presentation.home
+package com.linh.cryptoviewer2.presentation.watchlist
 
 import app.cash.turbine.test
 import com.linh.cryptoviewer2.domain.model.CoinFactory
@@ -6,7 +6,7 @@ import com.linh.cryptoviewer2.domain.model.CoinMarketDataFactory
 import com.linh.cryptoviewer2.domain.model.FiatCurrency
 import com.linh.cryptoviewer2.domain.model.PriceChangePercentage
 import com.linh.cryptoviewer2.domain.usecase.GetCoinMarketDataUseCase
-import com.linh.cryptoviewer2.presentation.home.model.*
+import com.linh.cryptoviewer2.presentation.watchlist.model.*
 import com.linh.cryptoviewer2.presentation.util.ResourceProvider
 import com.linh.cryptoviewer2.utils.TestHelper
 import io.mockk.*
@@ -19,21 +19,20 @@ import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
 import java.lang.Exception
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HomeViewModelTest {
+class WatchlistViewModelTest {
 
     private val getCoinMarketDataUseCase: GetCoinMarketDataUseCase = mockk(relaxed = true)
     private val mapper: CoinMarketDataToCoinUiMapper = mockk()
     private val resourceProvder: ResourceProvider = mockk(relaxed = true)
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: WatchlistViewModel
 
     @Before
     fun setup() {
-        viewModel = HomeViewModel(getCoinMarketDataUseCase, mapper, resourceProvder)
+        viewModel = WatchlistViewModel(getCoinMarketDataUseCase, mapper, resourceProvder)
 
         val testDispatcher = UnconfinedTestDispatcher()
         Dispatchers.setMain(testDispatcher)
@@ -56,7 +55,7 @@ class HomeViewModelTest {
 
     @Test
     fun `Given ViewModel, When init, Then show initial state`() {
-        assertEquals(HomeScreenUiState.Initial, viewModel.uiState.value)
+        assertEquals(WatchlistScreenUiState.Initial, viewModel.uiState.value)
     }
 
     @Test
@@ -66,8 +65,8 @@ class HomeViewModelTest {
         viewModel.uiState.test {
             viewModel.getCoin(id)
 
-            assertEquals(HomeScreenUiState.Initial, awaitItem())
-            assertTrue(awaitItem() is HomeScreenUiState.Loading)
+            assertEquals(WatchlistScreenUiState.Initial, awaitItem())
+            assertTrue(awaitItem() is WatchlistScreenUiState.Loading)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -82,10 +81,10 @@ class HomeViewModelTest {
 
         viewModel.getCoin(coin.id)
 
-        assertTrue(viewModel.uiState.value is HomeScreenUiState.Success)
+        assertTrue(viewModel.uiState.value is WatchlistScreenUiState.Success)
         assertEquals(
             listOf(mappedCoinUi),
-            (viewModel.uiState.value as HomeScreenUiState.Success).data.data
+            (viewModel.uiState.value as WatchlistScreenUiState.Success).data.data
         )
     }
 
@@ -97,7 +96,7 @@ class HomeViewModelTest {
 
         viewModel.getCoin(coin.id)
 
-        assert(viewModel.uiState.value is HomeScreenUiState.Error)
+        assert(viewModel.uiState.value is WatchlistScreenUiState.Error)
     }
 
     @Test
@@ -110,7 +109,7 @@ class HomeViewModelTest {
 
         viewModel.getCoin(coin.id)
         val uiState = viewModel.uiState.value
-        (uiState as HomeScreenUiState.Success).data.onRefresh()
+        (uiState as WatchlistScreenUiState.Success).data.onRefresh()
         coVerify(exactly = 2) { getCoinMarketDataUseCase(any(), any(), any()) }
     }
 
@@ -125,15 +124,15 @@ class HomeViewModelTest {
         viewModel.uiState.test {
             viewModel.getCoin(coin.id)
 
-            assertEquals(HomeScreenUiState.Initial, awaitItem())
-            assertTrue(awaitItem() is HomeScreenUiState.Loading)
+            assertEquals(WatchlistScreenUiState.Initial, awaitItem())
+            assertTrue(awaitItem() is WatchlistScreenUiState.Loading)
             val successData = awaitItem()
-            assertTrue(successData is HomeScreenUiState.Success)
+            assertTrue(successData is WatchlistScreenUiState.Success)
 
-            (viewModel.uiState.value as HomeScreenUiState.Success).data.onRefresh()
+            (viewModel.uiState.value as WatchlistScreenUiState.Success).data.onRefresh()
             val loading = awaitItem()
-            assertTrue(loading is HomeScreenUiState.Loading)
-            assertEquals((successData as HomeScreenUiState.Success).data.data ,(loading as HomeScreenUiState.Loading).oldData)
+            assertTrue(loading is WatchlistScreenUiState.Loading)
+            assertEquals((successData as WatchlistScreenUiState.Success).data.data ,(loading as WatchlistScreenUiState.Loading).oldData)
             cancelAndIgnoreRemainingEvents()
         }
     }

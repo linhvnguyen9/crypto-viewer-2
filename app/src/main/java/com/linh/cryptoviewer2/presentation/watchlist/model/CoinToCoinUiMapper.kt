@@ -1,4 +1,4 @@
-package com.linh.cryptoviewer2.presentation.home.model
+package com.linh.cryptoviewer2.presentation.watchlist.model
 
 import com.linh.cryptoviewer2.util.Mapper
 import com.linh.cryptoviewer2.domain.model.Coin
