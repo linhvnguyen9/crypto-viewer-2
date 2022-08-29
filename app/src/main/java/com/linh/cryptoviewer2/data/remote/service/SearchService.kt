@@ -6,6 +6,6 @@ import retrofit2.http.Query
 
 interface SearchService {
 
-    @GET("/search")
+    @GET("search")
     suspend fun search(@Query("query") query: String): SearchResponse
 }

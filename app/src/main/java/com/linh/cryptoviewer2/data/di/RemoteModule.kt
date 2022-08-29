@@ -1,6 +1,7 @@
 package com.linh.cryptoviewer2.data.di
 
 import com.linh.cryptoviewer2.data.remote.service.CoinService
+import com.linh.cryptoviewer2.data.remote.service.SearchService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,4 +38,8 @@ object RemoteModule {
     @Provides
     fun provideCoinService(retrofit: Retrofit): CoinService =
         retrofit.create(CoinService::class.java)
+
+    @Provides
+    fun provideSearchService(retrofit: Retrofit): SearchService =
+        retrofit.create(SearchService::class.java)
 }

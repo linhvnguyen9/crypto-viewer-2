@@ -7,7 +7,7 @@ data class SearchResponse(
     @SerializedName("categories")
     val categories: List<Category?>?,
     @SerializedName("coins")
-    val coins: List<Coin?>?,
+    val coins: List<Coin>?,
     @SerializedName("exchanges")
     val exchanges: List<Exchange?>?,
     @SerializedName("icos")

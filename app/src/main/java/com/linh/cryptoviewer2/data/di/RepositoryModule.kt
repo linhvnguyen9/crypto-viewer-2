@@ -1,7 +1,9 @@
 package com.linh.cryptoviewer2.data.di
 
 import com.linh.cryptoviewer2.data.repository.CoinRepositoryImpl
+import com.linh.cryptoviewer2.data.repository.SearchRepositoryImpl
 import com.linh.cryptoviewer2.domain.repository.CoinRepository
+import com.linh.cryptoviewer2.domain.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,4 +15,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindCoinRepository(impl: CoinRepositoryImpl): CoinRepository
+
+    @Binds
+    fun bindSearchRepository(searchRepository: SearchRepositoryImpl): SearchRepository
 }
