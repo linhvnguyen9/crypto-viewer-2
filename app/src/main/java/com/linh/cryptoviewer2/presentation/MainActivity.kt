@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -81,7 +82,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                ) {
+                ) { innerPadding ->
                     LaunchedEffect(Unit) {
                         viewModel.navigationCommands.collect { command ->
                             command.let {
@@ -96,7 +97,8 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = navigator.startDestination.route
+                        startDestination = navigator.startDestination.route,
+                        modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(NavigationDestination.Home.route) {
                             val viewModel: HomeScreenViewModel = hiltViewModel()

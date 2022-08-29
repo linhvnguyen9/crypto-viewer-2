@@ -13,9 +13,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.linh.cryptoviewer2.presentation.components.CoinItem
 import com.linh.cryptoviewer2.presentation.home.model.HomeScreenUiState
-import com.linh.cryptoviewer2.presentation.watchlist.model.CoinUi
+import com.linh.cryptoviewer2.presentation.home.model.SearchResultUi
 
 @Composable
 fun HomeScreen(uiState: HomeScreenUiState) {
@@ -28,8 +27,8 @@ fun HomeScreen(uiState: HomeScreenUiState) {
         }
 
         if (uiState is HomeScreenUiState.Result) {
-            itemsIndexed(uiState.results) { _: Int, item: CoinUi ->
-                CoinItem(coinUi = item)
+            itemsIndexed(uiState.results) { _: Int, item: SearchResultUi ->
+                SearchResultItem(searchResultUi = item)
             }
         }
     }
