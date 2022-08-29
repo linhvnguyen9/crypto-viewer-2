@@ -1,0 +1,63 @@
+{
+  "coins": [
+    {
+      "id": "binance-usd",
+      "name": "Binance USD",
+      "api_symbol": "binance-usd",
+      "symbol": "BUSD",
+      "market_cap_rank": 6,
+      "thumb": "https://assets.coingecko.com/coins/images/9576/thumb/BUSD.png",
+      "large": "https://assets.coingecko.com/coins/images/9576/large/BUSD.png"
+    },
+    {
+      "id": "binance-multi-chain-capital",
+      "name": "Binance Multi-Chain Capital",
+      "api_symbol": "binance-multi-chain-capital",
+      "symbol": "BMCC",
+      "market_cap_rank": 3329,
+      "thumb": "https://assets.coingecko.com/coins/images/22480/thumb/logo_200x200.png",
+      "large": "https://assets.coingecko.com/coins/images/22480/large/logo_200x200.png"
+    }
+  ],
+  "exchanges": [
+    {
+      "id": "binance",
+      "name": "Binance",
+      "market_type": "spot",
+      "thumb": "https://assets.coingecko.com/markets/images/52/thumb/binance.jpg",
+      "large": "https://assets.coingecko.com/markets/images/52/large/binance.jpg"
+    },
+    {
+      "id": "binance_us",
+      "name": "Binance US",
+      "market_type": "spot",
+      "thumb": "https://assets.coingecko.com/markets/images/469/thumb/Binance.png",
+      "large": "https://assets.coingecko.com/markets/images/469/large/Binance.png"
+    }
+  ],
+  "icos": [],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Artificial Intelligence"
+    },
+    {
+      "id": 2,
+      "name": "Augmented Reality"
+    }
+  ],
+  "nfts": [
+    {
+      "id": "josie",
+      "name": "Josie",
+      "symbol": "JOSIE",
+      "thumb": "https://assets.coingecko.com/nft_contracts/images/1094/thumb/josie.png"
+    },
+    {
+      "id": "pudgy-halloween",
+      "name": "Pudgy Halloween",
+      "symbol": "",
+      "thumb": "missing_thumb.png"
+    }
+  ]
+}
