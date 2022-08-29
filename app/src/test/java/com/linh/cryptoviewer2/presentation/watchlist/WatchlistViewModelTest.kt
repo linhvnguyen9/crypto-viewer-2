@@ -26,13 +26,13 @@ class WatchlistViewModelTest {
 
     private val getCoinMarketDataUseCase: GetCoinMarketDataUseCase = mockk(relaxed = true)
     private val mapper: CoinMarketDataToCoinUiMapper = mockk()
-    private val resourceProvder: ResourceProvider = mockk(relaxed = true)
+    private val resourceProvider: ResourceProvider = mockk(relaxed = true)
 
     private lateinit var viewModel: WatchlistViewModel
 
     @Before
     fun setup() {
-        viewModel = WatchlistViewModel(getCoinMarketDataUseCase, mapper, resourceProvder)
+        viewModel = WatchlistViewModel(getCoinMarketDataUseCase, mapper, resourceProvider)
 
         val testDispatcher = UnconfinedTestDispatcher()
         Dispatchers.setMain(testDispatcher)
