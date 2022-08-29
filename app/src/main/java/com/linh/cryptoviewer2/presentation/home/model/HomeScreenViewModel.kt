@@ -10,11 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val searchUseCase: SearchUseCase
+    private val searchUseCase: SearchUseCase,
+    private val searchResultToSearchResultUiMapper: SearchResultToSearchResultUiMapper
 ): ViewModel() {
     private val _uiState = MutableStateFlow<HomeScreenUiState>(HomeScreenUiState.Initial(this::onQueryChange))
     val uiState: StateFlow<HomeScreenUiState> get() = _uiState
@@ -27,7 +29,15 @@ class HomeScreenViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(DEBOUNCE_TIME_MILLIS)
-            searchUseCase(query)
+
+            try {
+                val result = searchUseCase(query)
+                val uiModel = searchResultToSearchResultUiMapper.map(result)
+
+                _uiState.update { HomeScreenUiState.Result(query, uiModel, this@HomeScreenViewModel::onQueryChange) }
+            } catch (e: Exception) {
+                // TODO: Handle exception
+            }
         }
     }
 
