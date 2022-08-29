@@ -19,6 +19,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.linh.cryptoviewer2.R
 import com.linh.cryptoviewer2.domain.model.ConnectivityState
+import com.linh.cryptoviewer2.presentation.home.HomeScreen
+import com.linh.cryptoviewer2.presentation.home.model.HomeScreenViewModel
 import com.linh.cryptoviewer2.presentation.navigation.NavigationDestination
 import com.linh.cryptoviewer2.presentation.navigation.Navigator
 import com.linh.cryptoviewer2.presentation.watchlist.WatchlistScreen
@@ -97,7 +99,10 @@ class MainActivity : ComponentActivity() {
                         startDestination = navigator.startDestination.route
                     ) {
                         composable(NavigationDestination.Home.route) {
-                            Text(text = "Home Screen")
+                            val viewModel: HomeScreenViewModel = hiltViewModel()
+                            val state = viewModel.uiState.collectAsState()
+
+                            HomeScreen(uiState = state.value)
                         }
                         composable(NavigationDestination.Watchlist.route) {
                             val viewModel: WatchlistViewModel = hiltViewModel()

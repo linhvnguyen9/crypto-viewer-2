@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.linh.cryptoviewer2.presentation.components.CoinItem
 import com.linh.cryptoviewer2.presentation.watchlist.model.CoinUi
 import com.linh.cryptoviewer2.presentation.watchlist.model.WatchlistScreenUiState
 
@@ -55,63 +56,8 @@ fun WatchlistScreenErrorState(errorMessage: String) {
     Text(text = errorMessage)
 }
 
-@Composable
-fun CoinItem(coinUi: CoinUi) {
-    with(coinUi) {
-        Card {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                AsyncImage(
-                    model = imageUrl,
-                    contentDescription = null,
-                    modifier = Modifier.size(48.dp)
-                )
-                Spacer(Modifier.width(16.dp))
-                Box(Modifier.fillMaxWidth()) {
-                    Column(Modifier.wrapContentHeight()) {
-                        Text(name, style = MaterialTheme.typography.h6)
-                        Spacer(Modifier.height(4.dp))
-                        Text(symbol, style = MaterialTheme.typography.subtitle2)
-                    }
-
-                    Column(
-                        Modifier
-                            .wrapContentHeight()
-                            .align(Alignment.CenterEnd)) {
-                        Text(displayPrice, style = MaterialTheme.typography.h6)
-                        Spacer(Modifier.height(4.dp))
-                        Row(Modifier.align(Alignment.End), verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                painter = painterResource(id = priceChangeIconRes),
-                                contentDescription = null,
-                                tint = colorResource(id = priceChangeDataColorRes)
-                            )
-                            Spacer(Modifier.width(4.dp))
-                            Text(
-                                priceChangePercentage24hText,
-                                style = MaterialTheme.typography.subtitle2,
-                                color = colorResource(id = priceChangeDataColorRes)
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 @Preview
 @Composable
-fun CoinItemPreview() {
-    CoinItem(coinUi = CoinUi("Test", "Symbol", "Url", 1000.2, 1.23))
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
+fun WatchlistScreenPreview() {
     WatchlistScreen(uiState = WatchlistScreenUiState.Error(""))
 }
