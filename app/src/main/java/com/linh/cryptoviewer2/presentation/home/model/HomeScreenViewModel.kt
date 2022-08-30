@@ -26,15 +26,20 @@ class HomeScreenViewModel @Inject constructor(
 
     private var searchJob: Job? = null
 
-    private fun onQueryChange(query: String) {
+    private fun onQueryChange(query: String, shouldSearchImmediately: Boolean) {
         _uiState.update {
             val oldList = (it as? HomeScreenUiState.Result)?.results
             HomeScreenUiState.Result(query, oldList.orEmpty(), this::onQueryChange)
         }
 
         searchJob?.cancel()
+
+        if (query.isBlank()) return
+
         searchJob = viewModelScope.launch {
-            delay(DEBOUNCE_TIME_MILLIS)
+            if (shouldSearchImmediately.not()) {
+                delay(DEBOUNCE_TIME_MILLIS)
+            }
 
             println("delay done")
 

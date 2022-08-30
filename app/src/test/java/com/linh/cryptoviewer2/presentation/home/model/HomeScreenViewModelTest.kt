@@ -41,7 +41,7 @@ class HomeScreenViewModelTest {
     fun `Given no query, When enter query, Then UI state should be updated with query`() {
         val query = TestHelper.randomString()
 
-        viewModel.uiState.value.onQueryChange(query)
+        viewModel.uiState.value.onQueryChange(query, false)
 
         assertEquals(query, viewModel.uiState.value.searchQuery)
     }
@@ -49,9 +49,27 @@ class HomeScreenViewModelTest {
     @Test
     fun `Given no query, When enter query and wait until debounce end, Then call search`() = runTest {
         val query = TestHelper.randomString()
-        viewModel.uiState.value.onQueryChange(query)
+        viewModel.uiState.value.onQueryChange(query, false)
 
         advanceTimeBy(HomeScreenViewModel.DEBOUNCE_TIME_MILLIS + 1)
+
+        coVerify { searchUseCase.invoke(query) }
+    }
+
+    @Test
+    fun `Given empty query, When enter query and wait until debounce end, Then not call search`() = runTest {
+        val query = ""
+        viewModel.uiState.value.onQueryChange(query, false)
+
+        advanceTimeBy(HomeScreenViewModel.DEBOUNCE_TIME_MILLIS + 1)
+
+        coVerify(exactly = 0) { searchUseCase.invoke(query) }
+    }
+
+    @Test
+    fun `Given valid query and search immediately, When query changes, Then call search without waiting for debounce`() {
+        val query = TestHelper.randomString()
+        viewModel.uiState.value.onQueryChange(query, true)
 
         coVerify { searchUseCase.invoke(query) }
     }
@@ -61,9 +79,9 @@ class HomeScreenViewModelTest {
         val oldQuery = TestHelper.randomString()
         val newQuery = TestHelper.randomString()
 
-        viewModel.uiState.value.onQueryChange(oldQuery)
+        viewModel.uiState.value.onQueryChange(oldQuery, false)
         advanceUntilIdle()
-        viewModel.uiState.value.onQueryChange(newQuery)
+        viewModel.uiState.value.onQueryChange(newQuery, false)
         advanceUntilIdle()
 
         coVerifyAll {
@@ -77,9 +95,9 @@ class HomeScreenViewModelTest {
         val oldQuery = TestHelper.randomString()
         val newQuery = TestHelper.randomString()
 
-        viewModel.uiState.value.onQueryChange(oldQuery)
+        viewModel.uiState.value.onQueryChange(oldQuery, false)
         advanceTimeBy(HomeScreenViewModel.DEBOUNCE_TIME_MILLIS)
-        viewModel.uiState.value.onQueryChange(newQuery)
+        viewModel.uiState.value.onQueryChange(newQuery, false)
         advanceUntilIdle()
 
         coVerify(exactly = 0) {
@@ -101,7 +119,7 @@ class HomeScreenViewModelTest {
         coEvery { searchResultToSearchResultUiMapper.map(any()) } returns emptyList()
 
         viewModel.uiState.test {
-            viewModel.uiState.value.onQueryChange(query)
+            viewModel.uiState.value.onQueryChange(query, false)
 
             assertTrue(awaitItem() is HomeScreenUiState.Initial)
             assertTrue(awaitItem() is HomeScreenUiState.Result)
@@ -135,14 +153,14 @@ class HomeScreenViewModelTest {
         coEvery { searchResultToSearchResultUiMapper.map(any()) } returns uiResult
 
         viewModel.uiState.test {
-            viewModel.uiState.value.onQueryChange(query)
+            viewModel.uiState.value.onQueryChange(query, false)
 
             assertTrue(awaitItem() is HomeScreenUiState.Initial)
             assertTrue(awaitItem() is HomeScreenUiState.Result)
             assertTrue(awaitItem() is HomeScreenUiState.Loading)
             assertTrue(awaitItem() is HomeScreenUiState.Result)
 
-            viewModel.uiState.value.onQueryChange(newQuery)
+            viewModel.uiState.value.onQueryChange(newQuery, false)
 
             val stateAfterQueryChange = awaitItem()
             assertTrue(stateAfterQueryChange is HomeScreenUiState.Result)
@@ -160,7 +178,7 @@ class HomeScreenViewModelTest {
         coEvery { searchResultToSearchResultUiMapper.map(any()) } returns emptyList()
 
         viewModel.uiState.test {
-            viewModel.uiState.value.onQueryChange(query)
+            viewModel.uiState.value.onQueryChange(query, false)
 
             assertTrue(awaitItem() is HomeScreenUiState.Initial)
             assertTrue(awaitItem() is HomeScreenUiState.Result)
