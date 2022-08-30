@@ -40,17 +40,16 @@ class WatchlistViewModelTest {
 
     @Test
     fun `Given ViewModel, When get coin, Then call get coin market data use case`() {
-        viewModel.getCoin(TestHelper.randomString())
+        viewModel.getCoin()
 
-        coVerify { getCoinMarketDataUseCase(any(), any(), any()) }
+        coVerify { getCoinMarketDataUseCase(any(), any()) }
     }
 
     @Test
     fun `Given ViewModel, When get coin, Then call get coin market data use case with correct params`() {
-        val id = TestHelper.randomString()
-        viewModel.getCoin(id)
+        viewModel.getCoin()
 
-        coVerify { getCoinMarketDataUseCase(FiatCurrency.USD, listOf(id), listOf(PriceChangePercentage.CHANGE_24_HOURS)) }
+        coVerify { getCoinMarketDataUseCase(FiatCurrency.USD, listOf(PriceChangePercentage.CHANGE_24_HOURS)) }
     }
 
     @Test
@@ -60,10 +59,8 @@ class WatchlistViewModelTest {
 
     @Test
     fun `Given ViewModel, When get coin, Then show loading state`() = runTest {
-        val id = TestHelper.randomString()
-
         viewModel.uiState.test {
-            viewModel.getCoin(id)
+            viewModel.getCoin()
 
             assertEquals(WatchlistScreenUiState.Initial, awaitItem())
             assertTrue(awaitItem() is WatchlistScreenUiState.Loading)
@@ -79,7 +76,7 @@ class WatchlistViewModelTest {
         coEvery { getCoinMarketDataUseCase.invoke(FiatCurrency.USD, listOf(coin.id), listOf(PriceChangePercentage.CHANGE_24_HOURS)) } returns listOf(coin)
         every { mapper.map(listOf(coin)) } returns listOf(mappedCoinUi)
 
-        viewModel.getCoin(coin.id)
+        viewModel.getCoin()
 
         assertTrue(viewModel.uiState.value is WatchlistScreenUiState.Success)
         assertEquals(
@@ -90,11 +87,9 @@ class WatchlistViewModelTest {
 
     @Test
     fun `Given get coin usecase error, When get coin success, Then show correct data`() {
-        val coin = CoinFactory.makeCoin()
-
         coEvery { getCoinMarketDataUseCase.invoke(any(), any(), any()) } throws Exception()
 
-        viewModel.getCoin(coin.id)
+        viewModel.getCoin()
 
         assert(viewModel.uiState.value is WatchlistScreenUiState.Error)
     }
@@ -104,13 +99,13 @@ class WatchlistViewModelTest {
         val coin = CoinMarketDataFactory.makeCoinMarketData()
         val mappedCoinUi = CoinUiFactory.makeCoinUi()
 
-        coEvery { getCoinMarketDataUseCase.invoke(FiatCurrency.USD, listOf(coin.id), listOf(PriceChangePercentage.CHANGE_24_HOURS)) } returns listOf(coin)
+        coEvery { getCoinMarketDataUseCase.invoke(FiatCurrency.USD, listOf(PriceChangePercentage.CHANGE_24_HOURS)) } returns listOf(coin)
         every { mapper.map(listOf(coin)) } returns listOf(mappedCoinUi)
 
-        viewModel.getCoin(coin.id)
+        viewModel.getCoin()
         val uiState = viewModel.uiState.value
         (uiState as WatchlistScreenUiState.Success).data.onRefresh()
-        coVerify(exactly = 2) { getCoinMarketDataUseCase(any(), any(), any()) }
+        coVerify(exactly = 2) { getCoinMarketDataUseCase(any(), any()) }
     }
 
     @Test
@@ -118,11 +113,11 @@ class WatchlistViewModelTest {
         val coin = CoinMarketDataFactory.makeCoinMarketData()
         val mappedCoinUi = CoinUiFactory.makeCoinUi()
 
-        coEvery { getCoinMarketDataUseCase.invoke(FiatCurrency.USD, listOf(coin.id), listOf(PriceChangePercentage.CHANGE_24_HOURS)) } returns listOf(coin)
+        coEvery { getCoinMarketDataUseCase.invoke(FiatCurrency.USD, listOf(PriceChangePercentage.CHANGE_24_HOURS)) } returns listOf(coin)
         every { mapper.map(listOf(coin)) } returns listOf(mappedCoinUi)
 
         viewModel.uiState.test {
-            viewModel.getCoin(coin.id)
+            viewModel.getCoin()
 
             assertEquals(WatchlistScreenUiState.Initial, awaitItem())
             assertTrue(awaitItem() is WatchlistScreenUiState.Loading)

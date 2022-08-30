@@ -29,11 +29,7 @@ class WatchlistViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<WatchlistScreenUiState>(WatchlistScreenUiState.Initial)
     val uiState: StateFlow<WatchlistScreenUiState> get() = _uiState
 
-    private var coinId = ""
-
-    fun getCoin(coinId: String) {
-        this.coinId = coinId // TODO: Load this data from DB instead of passing in arg
-
+    fun getCoin() {
         _uiState.update {
             val oldList = (it as? WatchlistScreenUiState.Success)?.data?.data
             WatchlistScreenUiState.Loading(oldList)
@@ -41,7 +37,7 @@ class WatchlistViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val response = getCoinMarketDataUseCase(FiatCurrency.USD, listOf(coinId), listOf(PriceChangePercentage.CHANGE_24_HOURS))
+                val response = getCoinMarketDataUseCase(FiatCurrency.USD, listOf(PriceChangePercentage.CHANGE_24_HOURS))
                 val uiModel = coinMarketDataToCoinUiMapper.map(response)
                 _uiState.update { WatchlistScreenUiState.Success(HomeScreenSuccessUi(uiModel, onRefresh = this@WatchlistViewModel::refresh)) }
             } catch (e: Exception) {
@@ -52,6 +48,6 @@ class WatchlistViewModel @Inject constructor(
     }
 
     private fun refresh() {
-        getCoin(coinId)
+        getCoin()
     }
 }
