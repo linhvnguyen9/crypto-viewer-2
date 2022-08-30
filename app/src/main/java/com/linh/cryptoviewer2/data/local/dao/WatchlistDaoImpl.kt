@@ -25,7 +25,7 @@ class WatchlistDaoImpl @Inject constructor(private val realm: Realm): WatchlistD
     override suspend fun delete(coinId: String) {
         realm.write {
             val writeTask = query<WatchlistItemLocal>("coinId == $0", coinId).find()
-            delete(writeTask.first())
+            if (writeTask.isEmpty().not()) delete(writeTask.first())
         }
     }
 }

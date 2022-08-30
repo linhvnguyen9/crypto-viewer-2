@@ -9,4 +9,5 @@ object TestHelper {
     fun randomDouble() = ThreadLocalRandom.current().nextDouble()
     fun randomInt() = ThreadLocalRandom.current().nextInt(0, 1000 + 1)
     fun randomLong() = ThreadLocalRandom.current().nextLong(1000 + 1)
+    fun randomBoolean() = ThreadLocalRandom.current().nextBoolean()
 }
