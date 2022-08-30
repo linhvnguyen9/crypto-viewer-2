@@ -5,6 +5,6 @@ data class SearchResultUi(
     val symbol: String,
     val thumbUrl: String,
     val id: String,
-    val isWatchlisted: Boolean,
+    val isWatchlisted: Boolean = false,
     val onToggleWatch: (Boolean) -> Unit
 )

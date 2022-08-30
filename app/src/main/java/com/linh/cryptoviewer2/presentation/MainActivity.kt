@@ -111,7 +111,7 @@ class MainActivity : ComponentActivity() {
                             val state = viewModel.uiState.collectAsState()
 
                             LaunchedEffect(key1 = true) {
-                                viewModel.getCoin("binancecoin")
+                                viewModel.getCoin()
                             }
 
                             Surface(
