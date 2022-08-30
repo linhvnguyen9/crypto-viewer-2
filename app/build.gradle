@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'io.realm.kotlin'
 }
 
 android {
@@ -109,4 +110,8 @@ dependencies {
 
     // AndroidX test
     testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    // Realm database
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'io.realm.kotlin:library-base:1.0.2'
 }
