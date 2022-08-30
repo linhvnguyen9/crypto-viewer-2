@@ -1,10 +1,9 @@
 package com.linh.cryptoviewer2.presentation.home
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +23,11 @@ fun SearchResultItem(searchResultUi: SearchResultUi) {
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                IconButton(onClick = {searchResultUi.onToggleWatch(true)})  {
+                    // TODO: handle toggling (if toggled then show filled button, else show outlined
+                    // TODO: change onToggleWatch hardcode
+                    Icon(Icons.Filled.Star, null)
+                }
                 AsyncImage(
                     model = thumbUrl,
                     contentDescription = null,
