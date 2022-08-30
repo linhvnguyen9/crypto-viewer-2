@@ -1,27 +1,24 @@
 package com.linh.cryptoviewer2.presentation.home.model
 
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.linh.cryptoviewer2.domain.usecase.GetCoinMarketDataUseCase
+import app.cash.turbine.test
+import com.linh.cryptoviewer2.domain.model.SearchResult
 import com.linh.cryptoviewer2.domain.usecase.SearchUseCase
 import com.linh.cryptoviewer2.presentation.util.ResourceProvider
-import com.linh.cryptoviewer2.presentation.watchlist.WatchlistViewModel
-import com.linh.cryptoviewer2.presentation.watchlist.model.CoinMarketDataToCoinUiMapper
 import com.linh.cryptoviewer2.utils.TestHelper
-import io.mockk.coVerify
-import io.mockk.coVerifyAll
-import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.*
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.lang.Exception
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeScreenViewModelTest {
     private val searchUseCase: SearchUseCase = mockk(relaxed = true)
+    private val searchResultToSearchResultUiMapper: SearchResultToSearchResultUiMapper = mockk(relaxed = true)
 
     private val resourceProvider: ResourceProvider = mockk(relaxed = true)
 
@@ -29,7 +26,7 @@ class HomeScreenViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = HomeScreenViewModel(searchUseCase)
+        viewModel = HomeScreenViewModel(searchUseCase, searchResultToSearchResultUiMapper)
 
         val testDispatcher = UnconfinedTestDispatcher()
         Dispatchers.setMain(testDispatcher)
@@ -90,6 +87,86 @@ class HomeScreenViewModelTest {
         }
         coVerify(exactly = 1) {
             searchUseCase.invoke(newQuery)
+        }
+    }
+
+    @Test
+    fun `Given no query, When debounce finish but hasn't finished loading, Then show loading state`() = runTest {
+        val query = TestHelper.randomString()
+
+        coEvery { searchUseCase.invoke(query) } answers (CoFunctionAnswer {
+            delay(1000)
+            SearchResult(emptyList())
+        })
+        coEvery { searchResultToSearchResultUiMapper.map(any()) } returns emptyList()
+
+        viewModel.uiState.test {
+            viewModel.uiState.value.onQueryChange(query)
+
+            assertTrue(awaitItem() is HomeScreenUiState.Initial)
+            assertTrue(awaitItem() is HomeScreenUiState.Result)
+            assertTrue(awaitItem() is HomeScreenUiState.Loading)
+            assertTrue(awaitItem() is HomeScreenUiState.Result)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `Given no query, When debounce finish but hasn't finished loading, Then show old list while loading`() = runTest {
+        val query = TestHelper.randomString()
+        val newQuery = TestHelper.randomString()
+
+        println(query)
+        println(newQuery)
+        val uiResult = listOf(
+            SearchResultUi(
+                name = TestHelper.randomString(),
+                symbol = TestHelper.randomString(),
+                thumbUrl = TestHelper.randomString(),
+                id = TestHelper.randomString()
+            )
+        )
+
+        coEvery { searchUseCase.invoke(query) } answers (CoFunctionAnswer {
+            delay(100)
+            SearchResult(emptyList())
+        })
+        coEvery { searchResultToSearchResultUiMapper.map(any()) } returns uiResult
+
+        viewModel.uiState.test {
+            viewModel.uiState.value.onQueryChange(query)
+
+            assertTrue(awaitItem() is HomeScreenUiState.Initial)
+            assertTrue(awaitItem() is HomeScreenUiState.Result)
+            assertTrue(awaitItem() is HomeScreenUiState.Loading)
+            assertTrue(awaitItem() is HomeScreenUiState.Result)
+
+            viewModel.uiState.value.onQueryChange(newQuery)
+
+            val stateAfterQueryChange = awaitItem()
+            assertTrue(stateAfterQueryChange is HomeScreenUiState.Result)
+            assertEquals(uiResult, (stateAfterQueryChange as HomeScreenUiState.Result).results)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `Given valid query and exception in use case call, When debounce finish, Then show error`() = runTest {
+        val query = TestHelper.randomString()
+
+        coEvery { searchUseCase.invoke(query) } throws Exception()
+        coEvery { searchResultToSearchResultUiMapper.map(any()) } returns emptyList()
+
+        viewModel.uiState.test {
+            viewModel.uiState.value.onQueryChange(query)
+
+            assertTrue(awaitItem() is HomeScreenUiState.Initial)
+            assertTrue(awaitItem() is HomeScreenUiState.Result)
+            assertTrue(awaitItem() is HomeScreenUiState.Error)
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 }
