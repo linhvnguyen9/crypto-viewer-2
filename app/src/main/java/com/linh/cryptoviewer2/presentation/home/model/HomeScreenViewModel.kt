@@ -3,6 +3,8 @@ package com.linh.cryptoviewer2.presentation.home.model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.linh.cryptoviewer2.R
+import com.linh.cryptoviewer2.domain.usecase.AddCoinToWatchlistUseCase
+import com.linh.cryptoviewer2.domain.usecase.RemoveCoinFromWatchlistUseCase
 import com.linh.cryptoviewer2.domain.usecase.SearchUseCase
 import com.linh.cryptoviewer2.presentation.util.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +21,9 @@ import javax.inject.Inject
 class HomeScreenViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val searchUseCase: SearchUseCase,
-    private val searchResultToSearchResultUiMapper: SearchResultToSearchResultUiMapper
+    private val searchResultToSearchResultUiMapper: SearchResultToSearchResultUiMapper,
+    private val addCoinToWatchlistUseCase: AddCoinToWatchlistUseCase,
+    private val removeCoinFromWatchlistUseCase: RemoveCoinFromWatchlistUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow<HomeScreenUiState>(HomeScreenUiState.Initial(this::onQueryChange))
     val uiState: StateFlow<HomeScreenUiState> get() = _uiState
@@ -41,23 +45,28 @@ class HomeScreenViewModel @Inject constructor(
                 delay(DEBOUNCE_TIME_MILLIS)
             }
 
-            println("delay done")
-
             _uiState.update {
                 val oldList = (it as? HomeScreenUiState.Result)?.results
-                println("updated")
                 HomeScreenUiState.Loading(it.searchQuery, oldList.orEmpty(), it.onQueryChange)
             }
 
             try {
-                println("trying")
                 val result = searchUseCase(query)
-                val uiModel = searchResultToSearchResultUiMapper.map(result)
+                val uiModel = searchResultToSearchResultUiMapper.map(result, this@HomeScreenViewModel::onToggleWatch)
 
                 _uiState.update { HomeScreenUiState.Result(query, uiModel, this@HomeScreenViewModel::onQueryChange) }
-                println("updated")
             } catch (e: Exception) {
-                _uiState.update { HomeScreenUiState.Error(query, resourceProvider.getString(R.string.home_error_occurred), this@HomeScreenViewModel::onQueryChange) } // TODO: Refactor to use resource
+                _uiState.update { HomeScreenUiState.Error(query, resourceProvider.getString(R.string.home_error_occurred), this@HomeScreenViewModel::onQueryChange) }
+            }
+        }
+    }
+
+    private fun onToggleWatch(isWatch: Boolean, coinId: String) {
+        viewModelScope.launch {
+            if (isWatch) {
+                addCoinToWatchlistUseCase(coinId)
+            } else {
+                removeCoinFromWatchlistUseCase(coinId)
             }
         }
     }
