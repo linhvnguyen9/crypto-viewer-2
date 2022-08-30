@@ -24,19 +24,32 @@ class HomeScreenViewModel @Inject constructor(
     private var searchJob: Job? = null
 
     private fun onQueryChange(query: String) {
-        _uiState.update { HomeScreenUiState.Result(query, emptyList(), this::onQueryChange) }
+        _uiState.update {
+            val oldList = (it as? HomeScreenUiState.Result)?.results
+            HomeScreenUiState.Result(query, oldList.orEmpty(), this::onQueryChange)
+        }
 
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(DEBOUNCE_TIME_MILLIS)
 
+            println("delay done")
+
+            _uiState.update {
+                val oldList = (it as? HomeScreenUiState.Result)?.results
+                println("updated")
+                HomeScreenUiState.Loading(it.searchQuery, oldList.orEmpty(), it.onQueryChange)
+            }
+
             try {
+                println("trying")
                 val result = searchUseCase(query)
                 val uiModel = searchResultToSearchResultUiMapper.map(result)
 
                 _uiState.update { HomeScreenUiState.Result(query, uiModel, this@HomeScreenViewModel::onQueryChange) }
+                println("updated")
             } catch (e: Exception) {
-                // TODO: Handle exception
+                _uiState.update { HomeScreenUiState.Error(query, "An error occurred, please try again", this@HomeScreenViewModel::onQueryChange) } // TODO: Refactor to use resource
             }
         }
     }
