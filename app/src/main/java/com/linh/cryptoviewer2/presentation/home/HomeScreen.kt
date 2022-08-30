@@ -1,8 +1,6 @@
 package com.linh.cryptoviewer2.presentation.home
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
@@ -13,40 +11,48 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.linh.cryptoviewer2.presentation.home.model.HomeScreenUiState
 import com.linh.cryptoviewer2.presentation.home.model.SearchResultUi
 
 @Composable
 fun HomeScreen(uiState: HomeScreenUiState) {
-    LazyColumn(
-        Modifier
-            .fillMaxSize()
-    ) {
-        item {
-            SearchHeader(uiState.searchQuery, uiState.onQueryChange)
-        }
+    Column(Modifier.padding(16.dp)) {
+        SearchHeader(uiState.searchQuery, uiState.onQueryChange)
+
+        Spacer(Modifier.height(16.dp))
 
         when (uiState) {
-            is HomeScreenUiState.Result -> {
-                itemsIndexed(uiState.results) { _: Int, item: SearchResultUi ->
-                    SearchResultItem(searchResultUi = item)
-                }
-            }
-            is HomeScreenUiState.Error -> {
-                item {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(uiState.errorMessage)
-                    }
-                }
-            }
-            is HomeScreenUiState.Loading -> {
-                item {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
-                }
-            }
+            is HomeScreenUiState.Result -> SuccessState(uiState)
+            is HomeScreenUiState.Error -> ErrorState(uiState)
+            is HomeScreenUiState.Loading -> LoadingState()
         }
+    }
+}
+
+@Composable
+private fun SuccessState(uiState: HomeScreenUiState.Result) {
+    LazyColumn(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        itemsIndexed(uiState.results) { _: Int, item: SearchResultUi ->
+            SearchResultItem(searchResultUi = item)
+        }
+    }
+}
+
+@Composable
+private fun ErrorState(uiState: HomeScreenUiState.Error) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(uiState.errorMessage)
+    }
+}
+
+@Composable
+private fun LoadingState() {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator()
     }
 }
 
