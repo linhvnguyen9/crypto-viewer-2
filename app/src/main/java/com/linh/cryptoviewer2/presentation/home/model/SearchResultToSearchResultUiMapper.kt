@@ -14,6 +14,7 @@ class SearchResultToSearchResultUiMapper @Inject constructor() {
                     symbol = symbol,
                     thumbUrl = largeImageUrl,
                     id = id,
+                    isWatchlisted = isWatchlisted,
                     onToggleWatch = { isWatch -> onToggleWatch(isWatch, it.id) }
                 )
             }

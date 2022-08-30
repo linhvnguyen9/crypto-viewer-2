@@ -10,6 +10,7 @@ data class SearchResult(
         val apiSymbol: String,
         val marketCapRank: Int,
         val thumbUrl: String,
-        val largeImageUrl: String
+        val largeImageUrl: String,
+        val isWatchlisted: Boolean = false
     )
 }
