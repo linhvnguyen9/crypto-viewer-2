@@ -2,7 +2,9 @@ package com.linh.cryptoviewer2.presentation.home.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.linh.cryptoviewer2.R
 import com.linh.cryptoviewer2.domain.usecase.SearchUseCase
+import com.linh.cryptoviewer2.presentation.util.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -15,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
+    private val resourceProvider: ResourceProvider,
     private val searchUseCase: SearchUseCase,
     private val searchResultToSearchResultUiMapper: SearchResultToSearchResultUiMapper
 ): ViewModel() {
@@ -49,7 +52,7 @@ class HomeScreenViewModel @Inject constructor(
                 _uiState.update { HomeScreenUiState.Result(query, uiModel, this@HomeScreenViewModel::onQueryChange) }
                 println("updated")
             } catch (e: Exception) {
-                _uiState.update { HomeScreenUiState.Error(query, "An error occurred, please try again", this@HomeScreenViewModel::onQueryChange) } // TODO: Refactor to use resource
+                _uiState.update { HomeScreenUiState.Error(query, resourceProvider.getString(R.string.home_error_occurred), this@HomeScreenViewModel::onQueryChange) } // TODO: Refactor to use resource
             }
         }
     }

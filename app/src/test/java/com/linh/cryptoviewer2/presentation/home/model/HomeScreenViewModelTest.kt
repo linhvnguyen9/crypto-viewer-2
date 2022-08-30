@@ -6,6 +6,7 @@ import com.linh.cryptoviewer2.domain.usecase.SearchUseCase
 import com.linh.cryptoviewer2.presentation.util.ResourceProvider
 import com.linh.cryptoviewer2.utils.TestHelper
 import io.mockk.*
+import io.mockk.InternalPlatformDsl.toArray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -17,16 +18,15 @@ import java.lang.Exception
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeScreenViewModelTest {
+    private val resourceProvider: ResourceProvider = mockk(relaxed = true)
     private val searchUseCase: SearchUseCase = mockk(relaxed = true)
     private val searchResultToSearchResultUiMapper: SearchResultToSearchResultUiMapper = mockk(relaxed = true)
-
-    private val resourceProvider: ResourceProvider = mockk(relaxed = true)
 
     private lateinit var viewModel: HomeScreenViewModel
 
     @Before
     fun setup() {
-        viewModel = HomeScreenViewModel(searchUseCase, searchResultToSearchResultUiMapper)
+        viewModel = HomeScreenViewModel(resourceProvider, searchUseCase, searchResultToSearchResultUiMapper)
 
         val testDispatcher = UnconfinedTestDispatcher()
         Dispatchers.setMain(testDispatcher)
