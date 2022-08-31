@@ -1,6 +1,8 @@
 package com.linh.cryptoviewer2.presentation.watchlist.model
 
 import com.linh.cryptoviewer2.R
+import com.linh.cryptoviewer2.util.extensions.toFormattedPercentage
+import com.linh.cryptoviewer2.util.extensions.toFormattedPrice
 
 data class CoinUi(
     val name: String,
@@ -25,8 +27,4 @@ data class CoinUi(
         } else {
             R.color.price_change_negative
         }
-
-    private fun Double.toFormattedPercentage() = String.format("%.2f", this) + "%"
-
-    private fun Double.toFormattedPrice() = String.format("$%.2f", this)
 }
