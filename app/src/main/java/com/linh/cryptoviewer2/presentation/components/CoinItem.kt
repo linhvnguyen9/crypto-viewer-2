@@ -41,8 +41,9 @@ fun CoinItem(coinUi: CoinUi) {
                     Column(
                         Modifier
                             .wrapContentHeight()
-                            .align(Alignment.CenterEnd)) {
-                        Text(displayPrice, style = MaterialTheme.typography.h6)
+                            .align(Alignment.CenterEnd)
+                    ) {
+                        Text(displayPrice, style = MaterialTheme.typography.h6, modifier = Modifier.align(Alignment.End))
                         Spacer(Modifier.height(4.dp))
                         Row(Modifier.align(Alignment.End), verticalAlignment = Alignment.CenterVertically) {
                             Icon(
@@ -67,5 +68,5 @@ fun CoinItem(coinUi: CoinUi) {
 @Preview
 @Composable
 fun CoinItemPreview() {
-    CoinItem(coinUi = CoinUi("Test", "Symbol", "Url", 1000.2, 1.23))
+    CoinItem(coinUi = CoinUi("Test", "Symbol", "Url", 1.00, 1.23))
 }
