@@ -95,7 +95,7 @@ class NotificationManagerImplTest {
         val manager = androidNotificationManager
         with(manager.activeNotifications.first()) {
             assertEquals("Price update", notification.extras[Notification.EXTRA_TITLE])
-            assertEquals("asdf | $12.30 | 2.30%", notification.extras[Notification.EXTRA_TEXT])
+            assertEquals("asdf | $12.30 | 3.40%", notification.extras[Notification.EXTRA_TEXT])
         }
     }
 
