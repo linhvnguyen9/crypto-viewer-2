@@ -62,7 +62,7 @@ class NotificationManagerImpl @Inject constructor(@ApplicationContext private va
 
     private fun getPriceNotificationContent(data: List<CoinMarketData>): String {
         return data.joinToString("\n") {
-            "${it.symbol} | ${it.currentPrice.toFormattedPrice()} | ${it.priceChangePercentage1h.toFormattedPercentage()}"
+            "${it.symbol} | ${it.currentPrice.toFormattedPrice()} | ${it.priceChangePercentage24h.toFormattedPercentage()}"
         }
     }
 
