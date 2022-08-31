@@ -114,4 +114,9 @@ dependencies {
     // Realm database
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'io.realm.kotlin:library-base:1.0.2'
+
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+    implementation 'androidx.hilt:hilt-work:1.0.0'
 }
