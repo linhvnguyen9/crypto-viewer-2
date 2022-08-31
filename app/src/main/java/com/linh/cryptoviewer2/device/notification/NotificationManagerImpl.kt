@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.linh.cryptoviewer2.R
@@ -66,7 +67,7 @@ class NotificationManagerImpl @Inject constructor(@ApplicationContext private va
     }
 
     companion object {
-        private const val PRICE_NOTIFICATION_CHANNEL_ID = "PRICE_NOTIFICATION_CHANNEL_ID"
-        private const val PRICE_NOTIFICATION_ID = 1
+        @VisibleForTesting const val PRICE_NOTIFICATION_CHANNEL_ID = "PRICE_NOTIFICATION_CHANNEL_ID"
+        @VisibleForTesting const val PRICE_NOTIFICATION_ID = 1
     }
 }

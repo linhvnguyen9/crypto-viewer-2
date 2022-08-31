@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -81,7 +82,8 @@ class MainActivity : ComponentActivity() {
                                 label = { Text(getString(R.string.all_watchlist)) }
                             )
                         }
-                    }
+                    },
+                    modifier = Modifier.testTag("scaffold")
                 ) { innerPadding ->
                     LaunchedEffect(Unit) {
                         viewModel.navigationCommands.collect { command ->
@@ -125,18 +127,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    CryptoViewer2Theme {
-        Greeting("Android")
     }
 }
