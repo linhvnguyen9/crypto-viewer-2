@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.linh.cryptoviewer2.presentation.components.CoinGeckoAttribution
 import com.linh.cryptoviewer2.presentation.home.model.HomeScreenUiState
 import com.linh.cryptoviewer2.presentation.home.model.SearchResultUi
 
@@ -41,6 +42,10 @@ private fun SuccessState(uiState: HomeScreenUiState.Result) {
     ) {
         itemsIndexed(uiState.results) { _: Int, item: SearchResultUi ->
             SearchResultItem(searchResultUi = item)
+        }
+
+        item {
+            CoinGeckoAttribution()
         }
     }
 }

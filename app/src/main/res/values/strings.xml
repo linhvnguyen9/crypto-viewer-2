@@ -4,4 +4,5 @@
     <string name="home_error_occurred">An error occurred, please try again 😅</string>
     <string name="all_home">Home</string>
     <string name="all_watchlist">Watchlist</string>
+    <string name="all_coingeckocredit">Data provided by CoinGecko</string>
 </resources>

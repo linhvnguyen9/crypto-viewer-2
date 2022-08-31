@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.linh.cryptoviewer2.presentation.components.CoinGeckoAttribution
 import com.linh.cryptoviewer2.presentation.components.CoinItem
 import com.linh.cryptoviewer2.presentation.watchlist.model.CoinUi
 import com.linh.cryptoviewer2.presentation.watchlist.model.WatchlistScreenUiState
